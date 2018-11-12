@@ -77,5 +77,8 @@ public class CoffeeService {
 	
 	public void addDrinkToMenu(Drink drink) {
 
+		coffeeComponents.put(drink.getName().toLowerCase(), drink.getIngredients());
+		menu.put(drink.getName().toLowerCase(), drink.getCost());
+
 	}
 }
