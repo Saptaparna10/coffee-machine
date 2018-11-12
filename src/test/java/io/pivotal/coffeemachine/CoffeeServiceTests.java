@@ -38,7 +38,7 @@ public class CoffeeServiceTests {
 		this.machine.makeDrink("cappuccino");
 		verify(this.inventory).deduct("coffee", 2);
 		verify(this.inventory).deduct("sugar", 1);
-		verify(this.inventory).deduct("cream", 1);
+		verify(this.inventory).deduct("cream", 2); //changed as per README
 	}
 
 }
