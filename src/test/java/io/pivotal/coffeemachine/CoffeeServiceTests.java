@@ -1,6 +1,6 @@
 package io.pivotal.coffeemachine;
 
-import java.util.Map;
+import java.util.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -39,6 +39,24 @@ public class CoffeeServiceTests {
 		verify(this.inventory).deduct("coffee", 2);
 		verify(this.inventory).deduct("sugar", 1);
 		verify(this.inventory).deduct("cream", 2); //changed as per README
+	}
+	
+	@Test
+	public void addDrinkToMenu() {
+		
+		Map<String, Double> menu = this.machine.getMenu();
+		Drink d = new Drink();
+		d.setName("macchiato");
+		d.setCost(3.55);
+		
+		Map<String, Integer> ingredient = new HashMap<String, Integer>();
+		ingredient.put("coffee", 3);
+		ingredient.put("sugar", 2);
+		ingredient.put("cream", 1);
+		d.setIngredients(ingredient);
+		machine.addDrinkToMenu(d);
+		
+		assertThat(menu).contains(entry("macchiato", 3.55));
 	}
 
 }

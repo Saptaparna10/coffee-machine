@@ -74,6 +74,8 @@ public class CoffeeService {
 		}
 		return drink;
 	}
+	
+	public void addDrinkToMenu(Drink drink) {
 
-
+	}
 }
