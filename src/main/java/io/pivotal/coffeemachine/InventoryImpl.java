@@ -2,6 +2,9 @@ package io.pivotal.coffeemachine;
 
 import java.util.*;
 
+import io.pivotal.coffeemachine.exception.IngredientNotFoundException;
+import io.pivotal.coffeemachine.exception.OutOfStockException;
+
 public class InventoryImpl implements Inventory {
 
 	private Map<String, Integer> ingredients;
@@ -17,11 +20,14 @@ public class InventoryImpl implements Inventory {
 		return this.ingredients;
 	}
 
-	public void deduct(String name, Integer amount) {
-		if(ingredients.containsKey(name)) {
-			if(ingredients.get(name) >= amount) {
-				ingredients.put(name, ingredients.get(name)-amount);
-			}
+	public void deduct(String name, Integer amount) throws IngredientNotFoundException, OutOfStockException {
+		
+		if(!ingredients.containsKey(name))
+			throw new IngredientNotFoundException("Ingredient " + name +" is not found");
+		else if(ingredients.get(name) < amount)
+			throw new OutOfStockException(name + " is out of stock");
+		else {
+			ingredients.put(name, ingredients.get(name)-amount);
 		}
 	}
 

@@ -5,6 +5,10 @@ import java.util.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import io.pivotal.coffeemachine.exception.DrinkNotFoundException;
+import io.pivotal.coffeemachine.exception.IngredientNotFoundException;
+import io.pivotal.coffeemachine.exception.OutOfStockException;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.mockito.Mockito.mock;
@@ -34,11 +38,18 @@ public class CoffeeServiceTests {
 	}
 
 	@Test
-	public void makeDrink() {
+	public void makeDrink() throws IngredientNotFoundException, OutOfStockException, DrinkNotFoundException {
 		this.machine.makeDrink("cappuccino");
 		verify(this.inventory).deduct("coffee", 2);
 		verify(this.inventory).deduct("sugar", 1);
 		verify(this.inventory).deduct("cream", 2); //changed as per README
+	}
+	
+	@Test(expected=DrinkNotFoundException.class)
+	public void makeDrinkShouldThrowException() throws IngredientNotFoundException, OutOfStockException, DrinkNotFoundException {
+		this.machine.makeDrink("americano");
+		verify(this.inventory).deduct("coffee", 2);
+		verify(this.inventory).deduct("sugar", 1);
 	}
 	
 	@Test

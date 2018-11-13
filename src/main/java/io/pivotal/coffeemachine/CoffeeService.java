@@ -2,6 +2,10 @@ package io.pivotal.coffeemachine;
 
 import java.util.*;
 
+import io.pivotal.coffeemachine.exception.DrinkNotFoundException;
+import io.pivotal.coffeemachine.exception.IngredientNotFoundException;
+import io.pivotal.coffeemachine.exception.OutOfStockException;
+
 public class CoffeeService {
 
 	private Inventory inventory;
@@ -56,11 +60,16 @@ public class CoffeeService {
 	 * Make a drink using the given name. Ingredients for the drink are deducted from the inventory.
 	 *
 	 * @param name the name of the drink
+	 * @throws OutOfStockException 
+	 * @throws IngredientNotFoundException 
+	 * @throws DrinkNotFoundException 
 	 */
-	public Drink makeDrink(String name) {
+	public Drink makeDrink(String name) throws IngredientNotFoundException, OutOfStockException, DrinkNotFoundException {
 		
 		Drink drink=null;
-		if(menu.containsKey(name)) {
+		if(!menu.containsKey(name))
+			throw new DrinkNotFoundException(name+ " not found in menu!");
+		else{
 			Map<String, Integer> requiredIngredients = coffeeComponents.get(name);
 
 			for (Map.Entry<String, Integer> ingredient : requiredIngredients.entrySet()) {

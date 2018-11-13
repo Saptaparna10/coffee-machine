@@ -2,6 +2,9 @@ package io.pivotal.coffeemachine;
 
 import java.util.Map;
 
+import io.pivotal.coffeemachine.exception.IngredientNotFoundException;
+import io.pivotal.coffeemachine.exception.OutOfStockException;
+
 public interface Inventory {
 
 	/**
@@ -16,6 +19,8 @@ public interface Inventory {
 	 *
 	 * @param name the name of the ingredient to reduce
 	 * @param amount the quantity to reduce by
+	 * @throws IngredientNotFoundException 
+	 * @throws OutOfStockException 
 	 */
-	void deduct(String name, Integer amount);
+	void deduct(String name, Integer amount) throws IngredientNotFoundException, OutOfStockException;
 }

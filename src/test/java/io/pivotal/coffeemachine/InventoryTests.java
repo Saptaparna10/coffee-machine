@@ -4,6 +4,9 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import io.pivotal.coffeemachine.exception.IngredientNotFoundException;
+import io.pivotal.coffeemachine.exception.OutOfStockException;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 
@@ -24,7 +27,7 @@ public abstract class InventoryTests {
 	}
 
 	@Test
-	public void deductShouldReduceQuantity() {
+	public void deductShouldReduceQuantity() throws IngredientNotFoundException, OutOfStockException {
 		Inventory inventory = getInventory();
 		inventory.deduct("coffee", 2);
 		Map<String, Integer> ingredients = inventory.getIngredients();
