@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import io.pivotal.coffeemachine.exception.DrinkNotFoundException;
+import io.pivotal.coffeemachine.exception.DrinksAlreadyExistsException;
 import io.pivotal.coffeemachine.exception.IngredientNotFoundException;
 import io.pivotal.coffeemachine.exception.OutOfStockException;
 
@@ -53,7 +54,7 @@ public class CoffeeServiceTests {
 	}
 	
 	@Test
-	public void addDrinkToMenu() {
+	public void addDrinkToMenu() throws DrinksAlreadyExistsException {
 		
 		Map<String, Double> menu = this.machine.getMenu();
 		Drink d = new Drink();
@@ -68,6 +69,22 @@ public class CoffeeServiceTests {
 		machine.addDrinkToMenu(d);
 		
 		assertThat(menu).contains(entry("macchiato", 3.55));
+	}
+	
+	@Test(expected=DrinksAlreadyExistsException.class)
+	public void addDrinkToMenuShouldThrowException() throws DrinksAlreadyExistsException {
+		
+		Drink d = new Drink();
+		d.setName("cappuccino");
+		d.setCost(3.55);
+		
+		Map<String, Integer> ingredient = new HashMap<String, Integer>();
+		ingredient.put("coffee", 3);
+		ingredient.put("sugar", 2);
+		ingredient.put("cream", 1);
+		d.setIngredients(ingredient);
+		machine.addDrinkToMenu(d);
+		
 	}
 
 }

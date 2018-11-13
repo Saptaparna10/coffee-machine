@@ -1,6 +1,12 @@
 package io.pivotal.coffeemachine.exception;
 
 import java.util.logging.Level;
+
+/**
+ * This is a custom exception
+ * @author saptaparnadas
+ *
+ */
 import java.util.logging.Logger;
 
 public class IngredientNotFoundException extends Exception {

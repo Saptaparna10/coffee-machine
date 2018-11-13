@@ -3,15 +3,27 @@ package io.pivotal.coffeemachine;
 import java.util.*;
 
 import io.pivotal.coffeemachine.exception.DrinkNotFoundException;
+import io.pivotal.coffeemachine.exception.DrinksAlreadyExistsException;
 import io.pivotal.coffeemachine.exception.IngredientNotFoundException;
 import io.pivotal.coffeemachine.exception.OutOfStockException;
 
+/**
+ * This class provides functionality to 
+ * run a coffee service
+ * @author saptaparnadas
+ *
+ */
 public class CoffeeService {
 
 	private Inventory inventory;
 	private Map<String, Double> menu;
 	private Map<String, Map<String, Integer>> coffeeComponents;
 
+	/**
+	 * Java constructor to initialize
+	 * menu and components of various coffees
+	 * @param inventory
+	 */
 	public CoffeeService(Inventory inventory) {
 		this.inventory = inventory;
 		this.menu = new HashMap<>();
@@ -84,10 +96,19 @@ public class CoffeeService {
 		return drink;
 	}
 	
-	public void addDrinkToMenu(Drink drink) {
+	/**
+	 * This method adds a new drink
+	 * to menu
+	 * @param drink
+	 * @throws DrinksAlreadyExistsException 
+	 */
+	public void addDrinkToMenu(Drink drink) throws DrinksAlreadyExistsException {
+		
+		if(menu.containsKey(drink.getName()))
+			throw new DrinksAlreadyExistsException(drink.getName()+" already exists in menu!!");
 
-		coffeeComponents.put(drink.getName().toLowerCase(), drink.getIngredients());
-		menu.put(drink.getName().toLowerCase(), drink.getCost());
+		coffeeComponents.put(drink.getName(), drink.getIngredients());
+		menu.put(drink.getName(), drink.getCost());
 
 	}
 }
